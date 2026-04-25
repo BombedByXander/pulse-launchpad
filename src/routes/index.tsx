@@ -14,7 +14,7 @@ export const Route = createFileRoute("/")({
   component: Index,
   head: () => ({
     meta: [
-      { title: "Pulse Client — Lightweight Minecraft launcher built for FPS" },
+      { title: "Pulse Client" },
       {
         name: "description",
         content:
@@ -22,7 +22,7 @@ export const Route = createFileRoute("/")({
       },
       {
         property: "og:title",
-        content: "Pulse Client — Lightweight Minecraft launcher built for FPS",
+        content: "Pulse Client",
       },
       {
         property: "og:description",

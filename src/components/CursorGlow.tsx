@@ -22,24 +22,33 @@ export function CursorGlow() {
     let targetY = window.innerHeight / 2;
     let x = targetX;
     let y = targetY;
+    let visible = false;
 
-    const onMove = (e: MouseEvent) => {
+    const updatePosition = () => {
+      x += (targetX - x) * 0.18;
+      y += (targetY - y) * 0.18;
+      el.style.transform = `translate3d(${x}px, ${y}px, 0) translate(-50%, -50%)`;
+      el.style.opacity = visible ? "1" : "0";
+      raf = requestAnimationFrame(updatePosition);
+    };
+
+    const onMove = (e: PointerEvent) => {
       targetX = e.clientX;
       targetY = e.clientY;
+      visible = true;
     };
 
-    const tick = () => {
-      x += (targetX - x) * 0.15;
-      y += (targetY - y) * 0.15;
-      el.style.left = `${x}px`;
-      el.style.top = `${y}px`;
-      raf = requestAnimationFrame(tick);
+    const onLeave = () => {
+      visible = false;
     };
 
-    window.addEventListener("mousemove", onMove, { passive: true });
-    raf = requestAnimationFrame(tick);
+    el.style.transform = `translate3d(${x}px, ${y}px, 0) translate(-50%, -50%)`;
+    window.addEventListener("pointermove", onMove, { passive: true });
+    window.addEventListener("pointerleave", onLeave);
+    raf = requestAnimationFrame(updatePosition);
     return () => {
-      window.removeEventListener("mousemove", onMove);
+      window.removeEventListener("pointermove", onMove);
+      window.removeEventListener("pointerleave", onLeave);
       cancelAnimationFrame(raf);
     };
   }, []);
@@ -50,12 +59,11 @@ export function CursorGlow() {
     <div
       ref={ref}
       aria-hidden
-      className="pointer-events-none fixed z-[60] h-[500px] w-[500px] rounded-full will-change-transform"
+      className="pointer-events-none fixed left-0 top-0 z-[60] h-[500px] w-[500px] rounded-full opacity-0 transition-opacity duration-150 will-change-transform"
       style={{
         background:
           "radial-gradient(circle, oklch(0.78 0.18 142 / 0.25) 0%, oklch(0.78 0.18 142 / 0.1) 40%, transparent 80%)",
         mixBlendMode: "screen",
-        transform: "translate(-50%, -50%)",
       }}
     />
   );
