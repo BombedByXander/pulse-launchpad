@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { Menu, X } from "lucide-react";
 import { useState, useEffect } from "react";
+import { PulseLogo } from "./PulseLogo";
 
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -27,11 +28,8 @@ export function Navbar() {
       }`}
     >
       <div className="max-w-6xl mx-auto px-6 h-14 flex items-center justify-between">
-        <Link to="/" className="flex items-center gap-2.5">
-          <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-            <rect x="1" y="1" width="16" height="16" stroke="currentColor" strokeWidth="1.5" />
-            <rect x="6" y="6" width="6" height="6" fill="currentColor" />
-          </svg>
+        <Link to="/" className="flex items-center gap-2.5 text-foreground">
+          <PulseLogo size={18} pulse />
           <span className="font-display font-semibold text-[15px] tracking-tight">
             Pulse Client
           </span>

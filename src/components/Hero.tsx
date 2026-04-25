@@ -50,7 +50,10 @@ export function Hero() {
         </div>
 
         <p className="text-center text-mono-eyebrow mt-4 !text-[11px]">
-          Free · 87 MB · Electron · Java 21 bundled
+          Free · 87 MB installer · Electron · Java 21 bundled
+        </p>
+        <p className="text-center text-[11px] text-muted-foreground mt-1.5 font-mono">
+          Guided setup wizard — installs in under a minute.
         </p>
 
         {/* terminal-style proof block */}

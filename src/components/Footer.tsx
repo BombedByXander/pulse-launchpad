@@ -1,3 +1,5 @@
+import { PulseLogo } from "./PulseLogo";
+
 export function Footer() {
   const cols = [
     {
@@ -15,11 +17,8 @@ export function Footer() {
       <div className="max-w-6xl mx-auto">
         <div className="grid md:grid-cols-3 gap-10 mb-14">
           <div>
-            <div className="flex items-center gap-2.5 mb-3">
-              <svg width="16" height="16" viewBox="0 0 18 18" fill="none">
-                <rect x="1" y="1" width="16" height="16" stroke="currentColor" strokeWidth="1.5" />
-                <rect x="6" y="6" width="6" height="6" fill="currentColor" />
-              </svg>
+            <div className="flex items-center gap-2.5 mb-3 text-foreground">
+              <PulseLogo size={16} pulse />
               <span className="font-display font-semibold text-sm">Pulse Client</span>
             </div>
             <p className="text-xs text-muted-foreground leading-relaxed max-w-[220px]">
