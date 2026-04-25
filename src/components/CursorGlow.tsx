@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 
 /**
- * Subtle radial glow that follows the user's cursor.
+ * Brighter grid reveal that follows the user's cursor.
  * Disabled on touch devices and when the user prefers reduced motion.
  */
 export function CursorGlow() {
@@ -27,7 +27,8 @@ export function CursorGlow() {
     const updatePosition = () => {
       x += (targetX - x) * 0.18;
       y += (targetY - y) * 0.18;
-      el.style.transform = `translate3d(${x}px, ${y}px, 0) translate(-50%, -50%)`;
+      el.style.setProperty("--cursor-x", `${x}px`);
+      el.style.setProperty("--cursor-y", `${y}px`);
       el.style.opacity = visible ? "1" : "0";
       raf = requestAnimationFrame(updatePosition);
     };
@@ -42,7 +43,8 @@ export function CursorGlow() {
       visible = false;
     };
 
-    el.style.transform = `translate3d(${x}px, ${y}px, 0) translate(-50%, -50%)`;
+    el.style.setProperty("--cursor-x", `${x}px`);
+    el.style.setProperty("--cursor-y", `${y}px`);
     window.addEventListener("pointermove", onMove, { passive: true });
     window.addEventListener("pointerleave", onLeave);
     raf = requestAnimationFrame(updatePosition);
@@ -59,10 +61,16 @@ export function CursorGlow() {
     <div
       ref={ref}
       aria-hidden
-      className="pointer-events-none fixed left-0 top-0 z-[60] h-[500px] w-[500px] rounded-full opacity-0 transition-opacity duration-150 will-change-transform"
+      className="pointer-events-none fixed inset-0 z-[5] opacity-0 transition-opacity duration-150 will-change-transform"
       style={{
         background:
-          "radial-gradient(circle, oklch(0.78 0.18 142 / 0.25) 0%, oklch(0.78 0.18 142 / 0.1) 40%, transparent 80%)",
+          "linear-gradient(oklch(1 0 0 / 0.11) 1px, transparent 1px), linear-gradient(90deg, oklch(1 0 0 / 0.11) 1px, transparent 1px), radial-gradient(circle at var(--cursor-x) var(--cursor-y), oklch(0.78 0.18 142 / 0.18) 0%, transparent 65%)",
+        backgroundSize: "48px 48px, 48px 48px, 100% 100%",
+        backgroundPosition: "0 0, 0 0, center",
+        maskImage:
+          "radial-gradient(circle 180px at var(--cursor-x) var(--cursor-y), black 0, black 38%, transparent 78%)",
+        WebkitMaskImage:
+          "radial-gradient(circle 180px at var(--cursor-x) var(--cursor-y), black 0, black 38%, transparent 78%)",
         mixBlendMode: "screen",
       }}
     />
