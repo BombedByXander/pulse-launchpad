@@ -8,6 +8,7 @@ import { Requirements } from "@/components/Requirements";
 import { CTA } from "@/components/CTA";
 import { Footer } from "@/components/Footer";
 import { SmoothScroll } from "@/components/SmoothScroll";
+import { CursorGlow } from "@/components/CursorGlow";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -36,6 +37,7 @@ function Index() {
   return (
     <div className="min-h-screen bg-background text-foreground">
       <SmoothScroll />
+      <CursorGlow />
       <Navbar />
       <main>
         <Hero />
