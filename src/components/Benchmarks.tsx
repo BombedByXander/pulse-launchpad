@@ -55,7 +55,7 @@ export function Benchmarks() {
           {[
             { v: "+312%", l: "Avg FPS gain" },
             { v: "1.84s", l: "Cold start" },
-            { v: "24 MB", l: "Installer size" },
+            { v: "87 MB", l: "Installer size" },
             { v: "0", l: "Tracking calls" },
           ].map((s) => (
             <div key={s.l} className="border-r border-b border-border p-6">
