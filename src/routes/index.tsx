@@ -2,10 +2,12 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Navbar } from "@/components/Navbar";
 import { Hero } from "@/components/Hero";
 import { Features } from "@/components/Features";
+import { FpsCompare } from "@/components/FpsCompare";
 import { Benchmarks } from "@/components/Benchmarks";
 import { Requirements } from "@/components/Requirements";
 import { CTA } from "@/components/CTA";
 import { Footer } from "@/components/Footer";
+import { SmoothScroll } from "@/components/SmoothScroll";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -15,7 +17,7 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "Pulse Client is a stripped-down, performance-first Minecraft launcher. 24 MB install, zero telemetry, consistently higher frames on every machine.",
+          "Pulse Client is a stripped-down, performance-first Minecraft launcher. 87 MB install, zero telemetry, consistently higher frames on every machine.",
       },
       {
         property: "og:title",
@@ -24,7 +26,7 @@ export const Route = createFileRoute("/")({
       {
         property: "og:description",
         content:
-          "Stable, fast, performance-focused. 24 MB install. Bundled JVM. No telemetry.",
+          "Stable, fast, performance-focused. 87 MB install. Bundled JVM. No telemetry.",
       },
     ],
   }),
@@ -33,9 +35,11 @@ export const Route = createFileRoute("/")({
 function Index() {
   return (
     <div className="min-h-screen bg-background text-foreground">
+      <SmoothScroll />
       <Navbar />
       <main>
         <Hero />
+        <FpsCompare />
         <Features />
         <Benchmarks />
         <Requirements />
