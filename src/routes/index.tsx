@@ -2,7 +2,8 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Navbar } from "@/components/Navbar";
 import { Hero } from "@/components/Hero";
 import { Features } from "@/components/Features";
-import { Showcase } from "@/components/Showcase";
+import { Benchmarks } from "@/components/Benchmarks";
+import { Requirements } from "@/components/Requirements";
 import { CTA } from "@/components/CTA";
 import { Footer } from "@/components/Footer";
 
@@ -10,17 +11,20 @@ export const Route = createFileRoute("/")({
   component: Index,
   head: () => ({
     meta: [
-      { title: "Pulse Client — Play smoother. Win faster." },
+      { title: "Pulse Client — Lightweight Minecraft launcher built for FPS" },
       {
         name: "description",
         content:
-          "Pulse Client is the next-gen Minecraft modpack built for performance, packed with 100+ mods, and engineered for competitive play. Free download.",
+          "Pulse Client is a stripped-down, performance-first Minecraft launcher. 24 MB install, zero telemetry, consistently higher frames on every machine.",
       },
-      { property: "og:title", content: "Pulse Client — Play smoother. Win faster." },
+      {
+        property: "og:title",
+        content: "Pulse Client — Lightweight Minecraft launcher built for FPS",
+      },
       {
         property: "og:description",
         content:
-          "The next-generation Minecraft client. 500% FPS boost, 100+ mods bundled, premium cosmetics. Free forever.",
+          "Stable, fast, performance-focused. 24 MB install. Bundled JVM. No telemetry.",
       },
     ],
   }),
@@ -33,7 +37,8 @@ function Index() {
       <main>
         <Hero />
         <Features />
-        <Showcase />
+        <Benchmarks />
+        <Requirements />
         <CTA />
       </main>
       <Footer />
