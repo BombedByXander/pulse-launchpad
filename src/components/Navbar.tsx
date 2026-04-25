@@ -16,7 +16,6 @@ export function Navbar() {
     { label: "Features", href: "#features" },
     { label: "Benchmarks", href: "#benchmarks" },
     { label: "Requirements", href: "#requirements" },
-    { label: "Changelog", href: "#changelog" },
   ];
 
   return (

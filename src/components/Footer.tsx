@@ -2,22 +2,18 @@ export function Footer() {
   const cols = [
     {
       title: "Product",
-      links: ["Download", "Features", "Benchmarks", "Changelog"],
+      links: ["Download", "Features", "Benchmarks"],
     },
     {
       title: "Docs",
       links: ["Install guide", "JVM tuning", "Mod profiles", "FAQ"],
-    },
-    {
-      title: "Community",
-      links: ["GitHub", "Discord", "Issue tracker"],
     },
   ];
 
   return (
     <footer className="relative border-t border-border px-6 pt-16 pb-8">
       <div className="max-w-6xl mx-auto">
-        <div className="grid md:grid-cols-4 gap-10 mb-14">
+        <div className="grid md:grid-cols-3 gap-10 mb-14">
           <div>
             <div className="flex items-center gap-2.5 mb-3">
               <svg width="16" height="16" viewBox="0 0 18 18" fill="none">

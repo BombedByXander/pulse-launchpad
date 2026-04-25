@@ -1,4 +1,4 @@
-import { Download, ArrowRight } from "lucide-react";
+import { Download } from "lucide-react";
 
 export function Hero() {
   return (
@@ -9,17 +9,13 @@ export function Hero() {
       <div className="relative max-w-5xl mx-auto">
         {/* status pill */}
         <div className="flex justify-center mb-10">
-          <a
-            href="#changelog"
-            className="group inline-flex items-center gap-2 px-3 py-1 rounded-full border border-border bg-surface/50 hover:border-foreground/20 transition-smooth"
-          >
+          <div className="group inline-flex items-center gap-2 px-3 py-1 rounded-full border border-border bg-surface/50">
             <span className="relative flex h-1.5 w-1.5">
               <span className="absolute inset-0 rounded-full bg-accent animate-ping opacity-75" />
               <span className="relative rounded-full h-1.5 w-1.5 bg-accent" />
             </span>
-            <span className="text-mono-eyebrow !text-[11px]">v2.4.1 released</span>
-            <ArrowRight className="w-3 h-3 text-muted-foreground group-hover:translate-x-0.5 transition-smooth" />
-          </a>
+            <span className="text-mono-eyebrow !text-[11px]">v2.4.1 · stable</span>
+          </div>
         </div>
 
         <h1 className="text-center text-[44px] sm:text-6xl md:text-7xl font-semibold leading-[1.02] tracking-tight max-w-4xl mx-auto">
@@ -54,7 +50,7 @@ export function Hero() {
         </div>
 
         <p className="text-center text-mono-eyebrow mt-4 !text-[11px]">
-          Free · 24 MB · Java 21 bundled
+          Free · 87 MB · Electron · Java 21 bundled
         </p>
 
         {/* terminal-style proof block */}
