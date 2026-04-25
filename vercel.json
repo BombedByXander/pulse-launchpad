@@ -1,0 +1,16 @@
+{
+  "buildCommand": "bun run build",
+  "devCommand": "bun run dev",
+  "installCommand": "bun install",
+  "framework": "vite",
+  "regions": ["iad1"],
+  "env": {
+    "NODE_ENV": "production"
+  },
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/"
+    }
+  ]
+}
