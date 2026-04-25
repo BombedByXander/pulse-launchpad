@@ -1,8 +1,8 @@
 import { useCountUp } from "@/hooks/useCountUp";
 
 export function FpsCompare() {
-  const other = useCountUp(68, 1800);
-  const pulse = useCountUp(478, 2400);
+  const other = useCountUp(70, 1800);
+  const pulse = useCountUp(465, 2400);
 
   return (
     <section className="relative py-28 px-6 border-t border-border overflow-hidden">
