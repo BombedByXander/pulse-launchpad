@@ -54,7 +54,7 @@ export function Hero() {
         </div>
 
         <p className="text-center text-mono-eyebrow mt-4 !text-[11px]">
-          Free · 24 MB · Java 21 bundled
+          Free · 87 MB · Electron · Java 21 bundled
         </p>
 
         {/* terminal-style proof block */}
