@@ -25,8 +25,8 @@ export function Hero() {
         </h1>
 
         <p className="text-center text-base md:text-lg text-muted-foreground max-w-xl mx-auto mt-7 leading-relaxed">
-          3x your current FPS count with Pulse Client — a heavily-optimized
-          and lightweight Minecraft client intended for highest FPS values on all devices.
+      3x your current FPS with Pulse Client — a heavily optimized,
+      lightweight Minecraft client designed for maximum FPS on all devices.
         </p>
 
         <div
