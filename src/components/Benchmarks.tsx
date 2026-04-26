@@ -1,9 +1,9 @@
 const benchmarks = [
-  { device: "Intel UHD 620 · i5-8250U", vanilla: 38, pulse: 184 },
-  { device: "Apple M1 · 8 GB", vanilla: 112, pulse: 542 },
-  { device: "GTX 1050 Ti · i5-9400F", vanilla: 96, pulse: 487 },
-  { device: "RTX 3060 · Ryzen 5 5600X", vanilla: 188, pulse: 720 },
-  { device: "Steam Deck · APU", vanilla: 44, pulse: 168 },
+  { device: "Intel UHD 620 · i5-8250U", vanilla: 39, pulse: 184 },
+  { device: "Apple M1 · 8 GB", vanilla: 112, pulse: 690 },
+  { device: "GTX 1050 Ti · i5-9400F", vanilla: 96, pulse: 520 },
+  { device: "RTX 3060 · Ryzen 5 5600X", vanilla: 188, pulse: 1120 },
+  { device: "Steam Deck · APU", vanilla: 60, pulse: 290 },
 ];
 
 export function Benchmarks() {
@@ -22,7 +22,7 @@ export function Benchmarks() {
             </h2>
             <p className="text-sm text-muted-foreground mt-5 leading-relaxed max-w-sm">
               Average FPS over a 60-second benchmark in a fixed superflat world,
-              render distance 16, vsync on. Lower is better for the gray bar.
+              render distance 16, vsync off. Lower is better for the gray bar.
             </p>
           </div>
 
