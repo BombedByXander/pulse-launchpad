@@ -9,7 +9,7 @@ const features = [
   {
     icon: HardDrive,
     title: "87 MB install",
-    desc: "Built on ELECTRON with a bundled browser runtime, while still keeping the launcher lean and out of your way.",
+    desc: "No Electron, no embedded browser, no analytics SDKs. The launcher itself stays out of your way.",
   },
   {
     icon: Cpu,
@@ -18,8 +18,8 @@ const features = [
   },
   {
     icon: Lock,
-    title: "Zero telemetry",
-    desc: "No accounts, no tracking, no phone-home. The client never talks to a server you didn't open.",
+    title: "Minimal telemetry",
+    desc: "No tracking, no phone-home. The client never talks to a server you didn't open.",
   },
   {
     icon: Workflow,
