@@ -14,7 +14,7 @@ export function Hero() {
               <span className="absolute inset-0 rounded-full bg-accent animate-ping opacity-75" />
               <span className="relative rounded-full h-1.5 w-1.5 bg-accent" />
             </span>
-            <span className="text-mono-eyebrow !text-[11px]">v2.4.1 · stable</span>
+            <span className="text-mono-eyebrow !text-[11px]">v1.1.1 · stable</span>
           </div>
         </div>
 
