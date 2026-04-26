@@ -53,7 +53,7 @@ export function Benchmarks() {
 
         <div className="grid grid-cols-2 md:grid-cols-4 border-t border-l border-border">
           {[
-            { v: "+312%", l: "Avg FPS gain" },
+            { v: "+441%", l: "Avg FPS gain" },
             { v: "1.84s", l: "Cold start" },
             { v: "87 MB", l: "Installer size" },
             { v: "0", l: "Tracking calls" },
