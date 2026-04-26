@@ -9,7 +9,7 @@ const features = [
   {
     icon: HardDrive,
     title: "87 MB install",
-    desc: "No Electron, no embedded browser, no analytics SDKs. The launcher itself stays out of your way.",
+    desc: "Built with Electron, no embedded browser, no analytics SDKs. The launcher itself stays out of your way.",
   },
   {
     icon: Cpu,
