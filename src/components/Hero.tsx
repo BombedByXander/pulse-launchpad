@@ -25,9 +25,8 @@ export function Hero() {
         </h1>
 
         <p className="text-center text-base md:text-lg text-muted-foreground max-w-xl mx-auto mt-7 leading-relaxed">
-          Pulse Client is a stripped-down, performance-first Minecraft launcher.
-          No bloat, no telemetry, no compromises — just consistently higher
-          frames on every machine.
+          3x your current FPS count with Pulse Client — a heavily-optimized
+          and lightweight Minecraft client intended for highest FPS values on all devices.
         </p>
 
         <div
