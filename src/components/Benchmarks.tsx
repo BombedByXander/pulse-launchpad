@@ -22,7 +22,7 @@ export function Benchmarks() {
             </h2>
             <p className="text-sm text-muted-foreground mt-5 leading-relaxed max-w-sm">
               Average FPS over a 60-second benchmark in a fixed superflat world,
-              render distance 16, vsync off. Lower is better for the gray bar.
+              render distance 16, vsync on. Lower is better for the gray bar.
             </p>
           </div>
 
