@@ -10,7 +10,7 @@ export function CTA() {
           Forget it's there.
         </h2>
         <p className="text-base text-muted-foreground mt-6 max-w-xl mx-auto">
-          24 MB. No account. No installer wizard. Double-click and play.
+          87 MB. No account. No installer wizard. Double-click and play.
         </p>
 
         <div className="flex flex-col sm:flex-row gap-3 justify-center items-center mt-9">
