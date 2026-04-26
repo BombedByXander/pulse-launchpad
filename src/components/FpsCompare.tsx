@@ -87,7 +87,7 @@ export function FpsCompare() {
         </div>
 
         <p className="text-center text-mono-eyebrow !text-[10px] mt-6">
-          Tested on Ryzen 5 5500 · GTX 1060 Gaming X · 16 GB · render distance 16 · vsync on
+          Tested on Ryzen 5 5500 · GTX 1060 Gaming X · 16 GB · render distance 16 · vsync OFF
         </p>
       </div>
     </section>
