@@ -32,12 +32,20 @@ export function Hero() {
       <div className="relative max-w-5xl mx-auto">
         {/* status pill */}
         <div className="flex justify-center mb-10">
-          <div className="group inline-flex items-center gap-2 px-3 py-1 rounded-full border border-border bg-surface/50">
+          <div 
+            className="group inline-flex items-center gap-2 px-3 py-1 rounded-full border border-border bg-surface/50"
+            style={{ boxShadow: '0 4px 20px rgba(0, 0, 0, 0.4)' }}
+          >
             <span className="relative flex h-1.5 w-1.5">
               <span className="absolute inset-0 rounded-full bg-accent animate-ping opacity-75" />
               <span className="relative rounded-full h-1.5 w-1.5 bg-accent" />
             </span>
-            <span className="text-mono-eyebrow !text-[11px]">v1.1.1 · stable</span>
+            <span 
+              className="text-white !text-[11px] font-mono uppercase tracking-wider"
+              style={{ textShadow: '0 2px 10px rgba(0, 0, 0, 0.5)' }}
+            >
+              v1.1.1 · stable
+            </span>
           </div>
         </div>
 
@@ -80,13 +88,13 @@ export function Hero() {
         </div>
 
         <p 
-          className="text-center text-mono-eyebrow mt-4 !text-[11px]"
+          className="text-center text-white mt-4 !text-[11px] font-mono uppercase tracking-wider"
           style={{ textShadow: '0 2px 10px rgba(0, 0, 0, 0.5)' }}
         >
           Free · 87 MB installer · Electron · Java 21 bundled
         </p>
         <p 
-          className="text-center text-[11px] text-muted-foreground mt-1.5 font-mono"
+          className="text-center text-[11px] text-white mt-1.5 font-mono"
           style={{ textShadow: '0 2px 10px rgba(0, 0, 0, 0.5)' }}
         >
           Guided setup wizard — installs in under a minute.

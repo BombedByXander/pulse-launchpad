@@ -28,7 +28,7 @@ export function Navbar() {
       }`}
     >
       <div className="max-w-6xl mx-auto px-6 h-14 flex items-center justify-between">
-        <Link to="/" className="flex items-center gap-2.5 text-foreground">
+        <Link to="/" className="flex items-center gap-2.5 text-white" style={{ textShadow: '0 2px 10px rgba(0, 0, 0, 0.5)' }}>
           <PulseLogo size={18} pulse />
           <span className="font-display font-semibold text-[15px] tracking-tight">
             Pulse Client
@@ -40,7 +40,8 @@ export function Navbar() {
             <a
               key={l.label}
               href={l.href}
-              className="text-[13px] text-muted-foreground hover:text-foreground transition-smooth"
+              className="text-[13px] text-white hover:text-white/80 transition-smooth"
+              style={{ textShadow: '0 2px 10px rgba(0, 0, 0, 0.5)' }}
             >
               {l.label}
             </a>
@@ -51,6 +52,7 @@ export function Navbar() {
           <a
             href="#download"
             className="hidden sm:inline-flex items-center px-3.5 py-1.5 rounded-md bg-primary text-primary-foreground font-medium text-[13px] hover:opacity-90 transition-smooth"
+            style={{ textShadow: '0 2px 10px rgba(0, 0, 0, 0.5)', boxShadow: '0 4px 20px rgba(0, 0, 0, 0.4)' }}
           >
             Download
           </a>
