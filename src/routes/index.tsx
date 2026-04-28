@@ -9,6 +9,7 @@ import { CTA } from "@/components/CTA";
 import { Footer } from "@/components/Footer";
 import { SmoothScroll } from "@/components/SmoothScroll";
 import { CursorGlow } from "@/components/CursorGlow";
+import { HeroBackground } from "@/components/HeroBackground";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -40,8 +41,10 @@ function Index() {
       <CursorGlow />
       <Navbar />
       <main>
-        <Hero />
-        <FpsCompare />
+        <HeroBackground>
+          <Hero />
+          <FpsCompare />
+        </HeroBackground>
         <Features />
         <Benchmarks />
         <Requirements />

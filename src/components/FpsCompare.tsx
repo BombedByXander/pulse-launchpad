@@ -5,7 +5,7 @@ export function FpsCompare() {
   const pulse = useCountUp(465, 2400);
 
   return (
-    <section className="relative py-28 px-6 border-t border-border overflow-hidden">
+    <section className="relative py-28 px-6 overflow-hidden">
       <div className="absolute inset-0 grid-bg opacity-40 pointer-events-none [mask-image:radial-gradient(ellipse_at_center,black_30%,transparent_75%)]" />
 
       <div className="relative max-w-6xl mx-auto">
