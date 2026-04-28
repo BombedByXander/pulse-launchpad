@@ -1,32 +1,73 @@
 import { Download } from "lucide-react";
+import { FloatingParticles } from "./FloatingParticles";
 
 export function Hero() {
   return (
     <section className="relative pt-32 pb-24 px-6 overflow-hidden">
+      {/* Floating particles */}
+      <FloatingParticles />
+      
+      {/* Dramatic sky background */}
+      <div 
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          backgroundImage: 'url(https://images.steamusercontent.com/ugc/1822275871101931378/C55C48144D45B16C1321AA3226A52C8E5FB13EBE/)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center top',
+          filter: 'blur(1px)',
+          maskImage: 'linear-gradient(to bottom, black 0%, black 40%, transparent 100%)',
+          WebkitMaskImage: 'linear-gradient(to bottom, black 0%, black 40%, transparent 100%)',
+        }}
+      />
+      
+      {/* Film grain overlay */}
+      <div 
+        className="absolute inset-0 pointer-events-none opacity-[0.08]"
+        style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
+          maskImage: 'linear-gradient(to bottom, black 0%, black 40%, transparent 100%)',
+          WebkitMaskImage: 'linear-gradient(to bottom, black 0%, black 40%, transparent 100%)',
+        }}
+      />
+      
       {/* subtle background grid only */}
       <div className="absolute inset-0 grid-bg opacity-60 pointer-events-none [mask-image:radial-gradient(ellipse_at_top,black_30%,transparent_70%)]" />
 
       <div className="relative max-w-5xl mx-auto">
         {/* status pill */}
         <div className="flex justify-center mb-10">
-          <div className="group inline-flex items-center gap-2 px-3 py-1 rounded-full border border-border bg-surface/50">
+          <div 
+            className="group inline-flex items-center gap-2 px-3 py-1 rounded-full border border-border bg-surface/50"
+            style={{ boxShadow: '0 4px 20px rgba(0, 0, 0, 0.4)' }}
+          >
             <span className="relative flex h-1.5 w-1.5">
               <span className="absolute inset-0 rounded-full bg-accent animate-ping opacity-75" />
               <span className="relative rounded-full h-1.5 w-1.5 bg-accent" />
             </span>
-            <span className="text-mono-eyebrow !text-[11px]">v1.1.1 · stable</span>
+            <span 
+              className="text-white !text-[11px] font-mono uppercase tracking-wider"
+              style={{ textShadow: '0 2px 10px rgba(0, 0, 0, 0.5)' }}
+            >
+              v1.1.1 · stable
+            </span>
           </div>
         </div>
 
-        <h1 className="text-center text-[44px] sm:text-6xl md:text-7xl font-semibold leading-[1.02] tracking-tight max-w-4xl mx-auto">
+        <h1 
+          className="text-center text-[44px] sm:text-6xl md:text-7xl font-semibold leading-[1.02] tracking-tight max-w-4xl mx-auto"
+          style={{ textShadow: '0 2px 20px rgba(0, 0, 0, 0.5), 0 4px 40px rgba(0, 0, 0, 0.3)' }}
+        >
           A lightweight launcher
           <br />
           built for raw FPS.
         </h1>
 
-        <p className="text-center text-base md:text-lg text-muted-foreground max-w-xl mx-auto mt-7 leading-relaxed">
-      3x your current FPS with Pulse Client — a heavily optimized,
-      lightweight Minecraft client designed for maximum FPS on all devices.
+        <p 
+          className="text-center text-base md:text-lg max-w-xl mx-auto mt-7 leading-relaxed"
+          style={{ color: 'rgb(255, 255, 255)', textShadow: '0 2px 12px rgba(0, 0, 0, 0.5), 0 4px 24px rgba(0, 0, 0, 0.3)' }}
+        >
+          3x your current FPS with Pulse Client — a heavily optimized,
+          lightweight Minecraft client designed for maximum FPS on all devices.
         </p>
 
         <div
@@ -35,7 +76,7 @@ export function Hero() {
         >
           <a
             href="#"
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-md bg-primary text-primary-foreground font-medium text-sm hover:opacity-90 transition-smooth"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-md bg-primary text-primary-foreground font-medium text-sm hover:opacity-90 transition-smooth animate-btn-glow"
           >
             <Download className="w-4 h-4" />
             Download for Windows
@@ -43,15 +84,22 @@ export function Hero() {
           <a
             href="#"
             className="inline-flex items-center gap-2 px-5 py-2.5 rounded-md border border-border text-foreground font-medium text-sm hover:bg-surface transition-smooth"
+            style={{ boxShadow: '0 4px 20px rgba(0, 0, 0, 0.4), 0 8px 40px rgba(0, 0, 0, 0.2)' }}
           >
             macOS · Linux
           </a>
         </div>
 
-        <p className="text-center text-mono-eyebrow mt-4 !text-[11px]">
+        <p 
+          className="text-center text-white mt-4 !text-[11px] font-mono uppercase tracking-wider"
+          style={{ textShadow: '0 2px 10px rgba(0, 0, 0, 0.5)' }}
+        >
           Free · 87 MB installer · Electron · Java 21 bundled
         </p>
-        <p className="text-center text-[11px] text-muted-foreground mt-1.5 font-mono">
+        <p 
+          className="text-center text-[11px] text-white mt-1.5 font-mono"
+          style={{ textShadow: '0 2px 10px rgba(0, 0, 0, 0.5)' }}
+        >
           Guided setup wizard — installs in under a minute.
         </p>
 
