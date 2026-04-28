@@ -3,6 +3,9 @@ import { useCountUp } from "@/hooks/useCountUp";
 export function FpsCompare() {
   const other = useCountUp(70, 1800);
   const pulse = useCountUp(465, 2400);
+  
+  const otherDone = other.done;
+  const pulseDone = pulse.done;
 
   return (
     <section className="relative py-28 px-6 overflow-hidden">
@@ -37,7 +40,7 @@ export function FpsCompare() {
 
             <div>
               <div
-                className="font-display font-semibold tracking-tight tabular-nums leading-none text-[oklch(0.65_0.22_25)]"
+                className={`font-display font-semibold tracking-tight tabular-nums leading-none text-[oklch(0.65_0.22_25)] ${otherDone ? 'animate-fps-glow' : ''}`}
                 style={{
                   fontSize: "clamp(72px, 12vw, 144px)",
                   textShadow: "0 0 60px oklch(0.65 0.22 25 / 0.35)",
@@ -68,7 +71,7 @@ export function FpsCompare() {
 
             <div className="text-right">
               <div
-                className="font-display font-semibold tracking-tight tabular-nums leading-none text-accent"
+                className={`font-display font-semibold tracking-tight tabular-nums leading-none text-accent ${pulseDone ? 'animate-fps-glow' : ''}`}
                 style={{
                   fontSize: "clamp(72px, 12vw, 144px)",
                   textShadow: "0 0 60px oklch(0.78 0.18 142 / 0.35)",

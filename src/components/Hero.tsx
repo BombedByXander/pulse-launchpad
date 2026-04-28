@@ -1,8 +1,12 @@
 import { Download } from "lucide-react";
+import { FloatingParticles } from "./FloatingParticles";
 
 export function Hero() {
   return (
     <section className="relative pt-32 pb-24 px-6 overflow-hidden">
+      {/* Floating particles */}
+      <FloatingParticles />
+      
       {/* Dramatic sky background */}
       <div 
         className="absolute inset-0 pointer-events-none"
@@ -72,8 +76,7 @@ export function Hero() {
         >
           <a
             href="#"
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-md bg-primary text-primary-foreground font-medium text-sm hover:opacity-90 transition-smooth"
-            style={{ boxShadow: '0 4px 20px rgba(0, 0, 0, 0.4), 0 8px 40px rgba(0, 0, 0, 0.2)' }}
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-md bg-primary text-primary-foreground font-medium text-sm hover:opacity-90 transition-smooth animate-btn-glow"
           >
             <Download className="w-4 h-4" />
             Download for Windows

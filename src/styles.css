@@ -139,4 +139,52 @@
   .animate-pulse-ring {
     animation: pulse-ring 2.8s cubic-bezier(0.16, 1, 0.3, 1) infinite;
   }
+
+  /* Animated download button glow */
+  @keyframes btn-glow {
+    0%, 100% { box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4), 0 0 20px oklch(0.78 0.18 142 / 0.3); }
+    50% { box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4), 0 0 40px oklch(0.78 0.18 142 / 0.5); }
+  }
+
+  .animate-btn-glow {
+    animation: btn-glow 2.5s ease-in-out infinite;
+  }
+
+  /* Floating particles */
+  @keyframes float-up {
+    0% { transform: translateY(0) translateX(0); opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { transform: translateY(-100vh) translateX(20px); opacity: 0; }
+  }
+
+  .particle {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: oklch(1 0 0 / 0.4);
+    border-radius: 50%;
+    pointer-events: none;
+  }
+
+  /* FPS glow pulse after count */
+  @keyframes fps-glow {
+    0%, 100% { filter: drop-shadow(0 0 60px currentColor); }
+    50% { filter: drop-shadow(0 0 80px currentColor); }
+  }
+
+  .animate-fps-glow {
+    animation: fps-glow 2s ease-in-out infinite;
+  }
+
+  /* Bar fill animation */
+  @keyframes bar-fill {
+    from { transform: scaleX(0); }
+    to { transform: scaleX(1); }
+  }
+
+  .animate-bar-fill {
+    animation: bar-fill 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    transform-origin: left;
+  }
 }

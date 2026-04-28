@@ -1,13 +1,38 @@
+import { Laptop, Apple, Monitor, Gamepad2, Cpu } from "lucide-react";
+
 const benchmarks = [
-  { device: "Intel UHD 620 · i5-8250U", vanilla: 39, pulse: 184 },
-  { device: "Apple M1 · 8 GB", vanilla: 112, pulse: 690 },
-  { device: "GTX 1050 Ti · i5-9400F", vanilla: 96, pulse: 520 },
-  { device: "RTX 3060 · Ryzen 5 5600X", vanilla: 188, pulse: 1120 },
-  { device: "Steam Deck · APU", vanilla: 60, pulse: 290 },
+  { device: "Intel UHD 620 · i5-8250U", vanilla: 39, pulse: 184, icon: Laptop },
+  { device: "Apple M1 · 8 GB", vanilla: 112, pulse: 690, icon: Apple },
+  { device: "GTX 1050 Ti · i5-9400F", vanilla: 96, pulse: 520, icon: Monitor },
+  { device: "RTX 3060 · Ryzen 5 5600X", vanilla: 188, pulse: 1120, icon: Cpu },
+  { device: "Steam Deck · APU", vanilla: 60, pulse: 290, icon: Gamepad2 },
 ];
+
+import { useEffect, useRef, useState } from "react";
 
 export function Benchmarks() {
   const max = Math.max(...benchmarks.map((b) => b.pulse));
+  const [isVisible, setIsVisible] = useState(false);
+  const sectionRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setIsVisible(true);
+          }
+        });
+      },
+      { threshold: 0.2 }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
 
   return (
     <section id="benchmarks" className="relative py-28 px-6 border-t border-border">
@@ -26,28 +51,40 @@ export function Benchmarks() {
             </p>
           </div>
 
-          <div className="lg:col-span-2 space-y-6">
-            {benchmarks.map((b) => (
-              <div key={b.device}>
-                <div className="flex items-baseline justify-between mb-2">
-                  <span className="font-mono text-xs text-muted-foreground">{b.device}</span>
-                  <span className="font-mono text-xs text-muted-foreground">
-                    <span className="text-foreground">{b.pulse}</span> fps
-                    <span className="opacity-60"> / {b.vanilla}</span>
-                  </span>
+          <div ref={sectionRef} className="lg:col-span-2 space-y-6">
+            {benchmarks.map((b, index) => {
+              const Icon = b.icon;
+              return (
+                <div key={b.device}>
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="font-mono text-xs text-muted-foreground flex items-center gap-2">
+                      <Icon className="w-3.5 h-3.5" strokeWidth={1.5} />
+                      {b.device}
+                    </span>
+                    <span className="font-mono text-xs text-muted-foreground">
+                      <span className="text-foreground">{b.pulse}</span> fps
+                      <span className="opacity-60"> / {b.vanilla}</span>
+                    </span>
+                  </div>
+                  <div className="relative h-1.5 bg-surface rounded-full overflow-hidden">
+                    <div
+                      className={`absolute left-0 top-0 h-full bg-muted-foreground/40 ${isVisible ? 'animate-bar-fill' : 'scale-x-0'}`}
+                      style={{ 
+                        width: `${(b.vanilla / max) * 100}%`,
+                        animationDelay: `${index * 0.1}s`,
+                      }}
+                    />
+                    <div
+                      className={`absolute left-0 top-0 h-full bg-accent ${isVisible ? 'animate-bar-fill' : 'scale-x-0'}`}
+                      style={{ 
+                        width: `${(b.pulse / max) * 100}%`,
+                        animationDelay: `${index * 0.1 + 0.2}s`,
+                      }}
+                    />
+                  </div>
                 </div>
-                <div className="relative h-1.5 bg-surface rounded-full overflow-hidden">
-                  <div
-                    className="absolute left-0 top-0 h-full bg-muted-foreground/40"
-                    style={{ width: `${(b.vanilla / max) * 100}%` }}
-                  />
-                  <div
-                    className="absolute left-0 top-0 h-full bg-foreground"
-                    style={{ width: `${(b.pulse / max) * 100}%`, mixBlendMode: "screen" }}
-                  />
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
 

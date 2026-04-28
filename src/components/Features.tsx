@@ -52,10 +52,12 @@ export function Features() {
             return (
               <div
                 key={f.title}
-                className="group relative p-8 border-r border-b border-border hover:bg-surface/50 transition-smooth"
+                className="group relative p-8 border-r border-b border-border hover:bg-surface/50 transition-smooth cursor-default"
               >
-                <Icon className="w-4 h-4 text-muted-foreground mb-6" strokeWidth={1.5} />
-                <h3 className="text-base font-semibold mb-2">{f.title}</h3>
+                <div className="w-8 h-8 rounded-md bg-surface-elevated flex items-center justify-center mb-6 group-hover:bg-accent/10 group-hover:scale-110 transition-smooth">
+                  <Icon className="w-4 h-4 text-muted-foreground group-hover:text-accent transition-smooth" strokeWidth={1.5} />
+                </div>
+                <h3 className="text-base font-semibold mb-2 group-hover:text-accent transition-smooth">{f.title}</h3>
                 <p className="text-sm text-muted-foreground leading-relaxed">{f.desc}</p>
               </div>
             );

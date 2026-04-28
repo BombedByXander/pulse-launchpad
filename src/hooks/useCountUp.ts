@@ -3,9 +3,11 @@ import { useEffect, useRef, useState } from "react";
 /**
  * Animates a count from 0 → target once when the element enters the viewport.
  * Stays static at the target value after completion.
+ * Returns `done` when animation completes for glow effects.
  */
 export function useCountUp(target: number, durationMs = 2200) {
   const [value, setValue] = useState(0);
+  const [done, setDone] = useState(false);
   const ref = useRef<HTMLDivElement | null>(null);
   const started = useRef(false);
 
@@ -25,8 +27,12 @@ export function useCountUp(target: number, durationMs = 2200) {
         // easeOutExpo
         const eased = t === 1 ? 1 : 1 - Math.pow(2, -10 * t);
         setValue(target * eased);
-        if (t < 1) raf = requestAnimationFrame(tick);
-        else setValue(target);
+        if (t < 1) {
+          raf = requestAnimationFrame(tick);
+        } else {
+          setValue(target);
+          setDone(true);
+        }
       };
       raf = requestAnimationFrame(tick);
       return () => cancelAnimationFrame(raf);
@@ -44,5 +50,5 @@ export function useCountUp(target: number, durationMs = 2200) {
     return () => obs.disconnect();
   }, [target, durationMs]);
 
-  return { value, ref };
+  return { value, ref, done };
 }
