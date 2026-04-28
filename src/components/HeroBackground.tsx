@@ -1,39 +1,20 @@
-import { useEffect, useRef, type ReactNode } from "react";
+import type { ReactNode } from "react";
 
 interface HeroBackgroundProps {
   children: ReactNode;
 }
 
 export function HeroBackground({ children }: HeroBackgroundProps) {
-  const bgRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (bgRef.current) {
-        // Parallax: background moves at 50% speed of scroll
-        const scrollY = window.scrollY;
-        bgRef.current.style.transform = `translate3d(0, ${scrollY * 0.5}px, 0)`;
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
   return (
     <div className="relative">
-      {/* Dramatic sky background with parallax effect */}
+      {/* Dramatic sky background */}
       <div 
-        ref={bgRef}
-        className="absolute inset-0 pointer-events-none will-change-transform"
+        className="absolute inset-0 pointer-events-none"
         style={{
           backgroundImage: 'url(https://media.forgecdn.net/attachments/722/537/dramatic_skys_new_background_2-1.png)',
           backgroundSize: 'cover',
           backgroundPosition: 'center top',
           filter: 'blur(1px)',
-          // Extend beyond container for parallax movement
-          height: '120%',
-          top: '-10%',
         }}
       />
       
