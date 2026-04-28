@@ -46,15 +46,21 @@ export function Hero() {
           </div>
         </div>
 
-        <h1 className="text-center text-[44px] sm:text-6xl md:text-7xl font-semibold leading-[1.02] tracking-tight max-w-4xl mx-auto">
+        <h1 
+          className="text-center text-[44px] sm:text-6xl md:text-7xl font-semibold leading-[1.02] tracking-tight max-w-4xl mx-auto"
+          style={{ textShadow: '0 2px 20px rgba(0, 0, 0, 0.5), 0 4px 40px rgba(0, 0, 0, 0.3)' }}
+        >
           A lightweight launcher
           <br />
           built for raw FPS.
         </h1>
 
-        <p className="text-center text-base md:text-lg text-muted-foreground max-w-xl mx-auto mt-7 leading-relaxed">
-      3x your current FPS with Pulse Client — a heavily optimized,
-      lightweight Minecraft client designed for maximum FPS on all devices.
+        <p 
+          className="text-center text-base md:text-lg max-w-xl mx-auto mt-7 leading-relaxed"
+          style={{ color: 'rgb(255, 255, 255)', textShadow: '0 2px 12px rgba(0, 0, 0, 0.5), 0 4px 24px rgba(0, 0, 0, 0.3)' }}
+        >
+          3x your current FPS with Pulse Client — a heavily optimized,
+          lightweight Minecraft client designed for maximum FPS on all devices.
         </p>
 
         <div
@@ -64,6 +70,7 @@ export function Hero() {
           <a
             href="#"
             className="inline-flex items-center gap-2 px-5 py-2.5 rounded-md bg-primary text-primary-foreground font-medium text-sm hover:opacity-90 transition-smooth"
+            style={{ boxShadow: '0 4px 20px rgba(0, 0, 0, 0.4), 0 8px 40px rgba(0, 0, 0, 0.2)' }}
           >
             <Download className="w-4 h-4" />
             Download for Windows
@@ -71,15 +78,22 @@ export function Hero() {
           <a
             href="#"
             className="inline-flex items-center gap-2 px-5 py-2.5 rounded-md border border-border text-foreground font-medium text-sm hover:bg-surface transition-smooth"
+            style={{ boxShadow: '0 4px 20px rgba(0, 0, 0, 0.4), 0 8px 40px rgba(0, 0, 0, 0.2)' }}
           >
             macOS · Linux
           </a>
         </div>
 
-        <p className="text-center text-mono-eyebrow mt-4 !text-[11px]">
+        <p 
+          className="text-center text-mono-eyebrow mt-4 !text-[11px]"
+          style={{ textShadow: '0 2px 10px rgba(0, 0, 0, 0.5)' }}
+        >
           Free · 87 MB installer · Electron · Java 21 bundled
         </p>
-        <p className="text-center text-[11px] text-muted-foreground mt-1.5 font-mono">
+        <p 
+          className="text-center text-[11px] text-muted-foreground mt-1.5 font-mono"
+          style={{ textShadow: '0 2px 10px rgba(0, 0, 0, 0.5)' }}
+        >
           Guided setup wizard — installs in under a minute.
         </p>
 
