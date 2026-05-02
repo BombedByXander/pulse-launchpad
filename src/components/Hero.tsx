@@ -29,6 +29,14 @@ export function Hero() {
           WebkitMaskImage: 'linear-gradient(to bottom, black 0%, black 40%, transparent 100%)',
         }}
       />
+
+      <div className="absolute inset-x-0 bottom-0 h-[42%] pointer-events-none overflow-hidden">
+        <div className="absolute left-1/2 bottom-[10%] h-[48%] w-[72%] -translate-x-1/2 animate-grid-swell rounded-[999px] opacity-85">
+          <div className="absolute inset-0 grid-bg animate-grid-drift opacity-60 [mask-image:radial-gradient(ellipse_at_center,transparent_0%,black_24%,black_54%,transparent_88%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,oklch(0.96_0.002_250_/_0.1),transparent_62%)]" />
+        </div>
+        <div className="absolute inset-x-0 bottom-0 h-full bg-[linear-gradient(to_top,oklch(0.14_0.003_250_/_0.46),transparent_72%)]" />
+      </div>
       
       {/* subtle background grid only */}
       <div className="absolute inset-0 grid-bg opacity-60 pointer-events-none [mask-image:radial-gradient(ellipse_at_top,black_30%,transparent_70%)]" />
