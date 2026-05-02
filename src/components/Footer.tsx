@@ -11,11 +11,11 @@ export function Footer({ mode }: FooterProps) {
     const cols = [
       {
         title: "Focus",
-        links: ["Front-end systems", "Interactive launches", "Game-adjacent tools"],
+        links: ["Mods", "Websites", "Software projects"],
       },
       {
         title: "Current",
-        links: ["Pulse Client", "Landing pages", "UI experiments"],
+        links: ["Pulse Client", "ProdByXander! Portfolio", "Xander's Arcade"],
       },
     ];
 
@@ -26,13 +26,13 @@ export function Footer({ mode }: FooterProps) {
             <div>
               <div className="flex items-center gap-2.5 mb-3 text-foreground">
                 <span className="inline-flex h-4 w-4 items-center justify-center rounded-sm border border-foreground/35 bg-foreground text-[10px] font-semibold text-background">
-                  B
+                  P
                 </span>
-                <span className="font-display font-semibold text-sm">BombedByXander</span>
+                <span className="font-display font-semibold text-sm">ProdByXander!</span>
               </div>
               <p className="text-xs text-muted-foreground leading-relaxed max-w-[260px]">
-                Design-minded front-end work for game tools, product launches, and interfaces
-                that should feel sharp from the first scroll.
+                15 y/o software developer and web designer making mods, websites, and
+                software that is meant to feel fun instead of flat.
               </p>
             </div>
             {cols.map((c) => (
@@ -50,7 +50,7 @@ export function Footer({ mode }: FooterProps) {
           </div>
 
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-3 pt-6 border-t border-border">
-            <p className="text-mono-eyebrow !text-[10px]">© 2026 BombedByXander</p>
+            <p className="text-mono-eyebrow !text-[10px]">© 2026 ProdByXander!</p>
             <p className="text-mono-eyebrow !text-[10px]">Portfolio mode · Pulse switch in header</p>
           </div>
         </div>

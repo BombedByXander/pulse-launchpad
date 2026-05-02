@@ -23,8 +23,6 @@ export function Navbar({ mode, onModeChange }: NavbarProps) {
   const portfolioLinks = [
     { label: "Work", href: "#work" },
     { label: "About", href: "#about" },
-    { label: "Stack", href: "#stack" },
-    { label: "Contact", href: "#contact" },
   ];
 
   const pulseLinks = [
@@ -38,9 +36,13 @@ export function Navbar({ mode, onModeChange }: NavbarProps) {
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-smooth ${
-        scrolled
-          ? "bg-background/85 backdrop-blur-md border-b border-border"
-          : "bg-transparent"
+        mode === "pulse"
+          ? scrolled
+            ? "bg-background/22 backdrop-blur-xl border-b border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.28)]"
+            : "bg-background/10 backdrop-blur-lg border-b border-white/8"
+          : scrolled
+            ? "bg-background/85 backdrop-blur-md border-b border-border"
+            : "bg-transparent"
       }`}
     >
       <div className="max-w-6xl mx-auto px-6 h-14 flex items-center justify-between">
@@ -55,10 +57,10 @@ export function Navbar({ mode, onModeChange }: NavbarProps) {
           ) : (
             <>
               <span className="inline-flex h-[18px] w-[18px] items-center justify-center rounded-sm border border-foreground/35 bg-foreground text-background">
-                B
+                P
               </span>
               <span className="font-display font-semibold text-[15px] tracking-tight">
-                BombedByXander
+                ProdByXander!
               </span>
             </>
           )}
