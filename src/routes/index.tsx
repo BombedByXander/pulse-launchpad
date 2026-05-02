@@ -3,9 +3,9 @@ import { createFileRoute } from "@tanstack/react-router";
 import {
   ArrowRight,
   ArrowUpRight,
-  Monitor,
   TerminalSquare,
   WandSparkles,
+  Monitor,
 } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
 import { Hero } from "@/components/Hero";
@@ -58,6 +58,51 @@ function Index() {
 
   useEffect(() => {
     window.localStorage.setItem(modeStorageKey, mode);
+  }, [mode]);
+
+  useEffect(() => {
+    if (mode === "pulse") {
+      document.title = "Pulse Client";
+      return;
+    }
+
+    const label = "ProdByXander!";
+    let index = 0;
+    let direction: "forward" | "backward" = "forward";
+    let timeoutId = 0;
+
+    const tick = () => {
+      if (direction === "forward") {
+        index = Math.min(label.length, index + 1);
+        document.title = label.slice(0, index);
+        if (index === label.length) {
+          timeoutId = window.setTimeout(() => {
+            direction = "backward";
+            tick();
+          }, 1100);
+          return;
+        }
+        timeoutId = window.setTimeout(tick, 120);
+        return;
+      }
+
+      index = Math.max(0, index - 1);
+      document.title = label.slice(0, index) || "";
+      if (index === 0) {
+        timeoutId = window.setTimeout(() => {
+          direction = "forward";
+          tick();
+        }, 280);
+        return;
+      }
+      timeoutId = window.setTimeout(tick, 65);
+    };
+
+    document.title = "";
+    timeoutId = window.setTimeout(tick, 180);
+    return () => {
+      window.clearTimeout(timeoutId);
+    };
   }, [mode]);
 
   return (
