@@ -63,7 +63,6 @@ function Index() {
     window.localStorage.setItem(modeStorageKey, mode);
   }, [mode]);
 
-  // Title animation effect
   useEffect(() => {
     if (mode === "pulse") {
       document.title = "Pulse Client";
@@ -71,45 +70,60 @@ function Index() {
     }
 
     const label = "ProdByXander!";
+    const timeouts: number[] = [];
+    let cancelled = false;
     let index = 0;
     let direction: "forward" | "backward" = "forward";
-    let timeoutId = 0;
+
+    const schedule = (callback: () => void, delay: number) => {
+      const timeoutId = window.setTimeout(() => {
+        if (!cancelled) {
+          callback();
+        }
+      }, delay);
+      timeouts.push(timeoutId);
+    };
 
     const tick = () => {
       if (direction === "forward") {
-        index = Math.min(label.length, index + 1);
+        index += 1;
         document.title = label.slice(0, index);
-        if (index === label.length) {
-          timeoutId = window.setTimeout(() => {
-            direction = "backward";
-            tick();
-          }, 1100);
+
+        if (index >= label.length) {
+          direction = "backward";
+          schedule(tick, 1400);
           return;
         }
-        timeoutId = window.setTimeout(tick, 120);
+
+        const nextDelay = index < 4 ? 160 : 125;
+        schedule(tick, nextDelay);
         return;
       }
 
-      index = Math.max(0, index - 1);
-      document.title = label.slice(0, index) || "";
-      if (index === 0) {
-        timeoutId = window.setTimeout(() => {
-          direction = "forward";
-          tick();
-        }, 280);
+      index -= 1;
+      document.title = label.slice(0, Math.max(0, index));
+
+      if (index <= 0) {
+        index = 0;
+        direction = "forward";
+        schedule(tick, 520);
         return;
       }
-      timeoutId = window.setTimeout(tick, 65);
+
+      const nextDelay = index > 8 ? 95 : 75;
+      schedule(tick, nextDelay);
     };
 
-    document.title = "";
-    timeoutId = window.setTimeout(tick, 180);
+    document.title = label.slice(0, 1);
+    index = 1;
+    schedule(tick, 240);
+
     return () => {
-      window.clearTimeout(timeoutId);
+      cancelled = true;
+      timeouts.forEach((timeoutId) => window.clearTimeout(timeoutId));
     };
   }, [mode]);
 
-  // Called by Navbar / portfolio CTAs instead of setMode directly
   const handleModeChange = useCallback(
     (next: SiteMode) => {
       if (next === mode || pendingMode !== null) return;
@@ -118,14 +132,11 @@ function Index() {
     [mode, pendingMode],
   );
 
-  // Called when the animation canvas signals "done" (black screen moment)
   const handleTransitionComplete = useCallback(() => {
     if (pendingMode !== null) {
       setMode(pendingMode);
-      // Scroll to top after the content swap
       window.scrollTo({ top: 0 });
     }
-    // Tiny delay so the new content mounts before the overlay disappears
     setTimeout(() => setPendingMode(null), 80);
   }, [pendingMode]);
 

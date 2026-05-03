@@ -83,7 +83,8 @@ export function Hero() {
           className="flex flex-col sm:flex-row gap-3 justify-center items-center mt-10"
         >
           <a
-            href="#"
+            href="/downloads/PulseClientSetup.exe"
+            download
             className="inline-flex items-center gap-2 px-5 py-2.5 rounded-md bg-primary text-primary-foreground font-medium text-sm hover:opacity-90 transition-smooth animate-btn-glow"
           >
             <Download className="w-4 h-4" />
