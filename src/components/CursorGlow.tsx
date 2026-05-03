@@ -64,14 +64,15 @@ export function CursorGlow() {
       className="pointer-events-none fixed inset-0 z-[5] opacity-0 transition-opacity duration-150 will-change-transform"
       style={{
         background:
-          "linear-gradient(oklch(1 0 0 / 0.11) 1px, transparent 1px), linear-gradient(90deg, oklch(1 0 0 / 0.11) 1px, transparent 1px), radial-gradient(circle at var(--cursor-x) var(--cursor-y), oklch(0.78 0.18 142 / 0.18) 0%, transparent 65%)",
+          "linear-gradient(oklch(1 0 0 / 0.18) 1px, transparent 1px), linear-gradient(90deg, oklch(1 0 0 / 0.18) 1px, transparent 1px), radial-gradient(circle at var(--cursor-x) var(--cursor-y), oklch(0.96 0.002 250 / 0.12) 0%, oklch(0.78 0.18 142 / 0.18) 34%, transparent 72%)",
         backgroundSize: "48px 48px, 48px 48px, 100% 100%",
         backgroundPosition: "0 0, 0 0, center",
         maskImage:
-          "radial-gradient(circle 180px at var(--cursor-x) var(--cursor-y), black 0, black 38%, transparent 78%)",
+          "radial-gradient(circle 220px at var(--cursor-x) var(--cursor-y), black 0, black 38%, transparent 76%)",
         WebkitMaskImage:
-          "radial-gradient(circle 180px at var(--cursor-x) var(--cursor-y), black 0, black 38%, transparent 78%)",
+          "radial-gradient(circle 220px at var(--cursor-x) var(--cursor-y), black 0, black 38%, transparent 76%)",
         mixBlendMode: "screen",
+        filter: "brightness(1.18) blur(0.15px)",
       }}
     />
   );
