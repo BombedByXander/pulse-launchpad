@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import {
   ArrowRight,
@@ -18,6 +18,7 @@ import { Footer } from "@/components/Footer";
 import { SmoothScroll } from "@/components/SmoothScroll";
 import { CursorGlow } from "@/components/CursorGlow";
 import { PulseLogo } from "@/components/PulseLogo";
+import { ModeTransition } from "@/components/ModeTransition";
 
 type SiteMode = "portfolio" | "pulse";
 
@@ -48,6 +49,8 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   const [mode, setMode] = useState<SiteMode>("portfolio");
+  // pending = the mode we're animating TOWARD; null = no transition active
+  const [pendingMode, setPendingMode] = useState<SiteMode | null>(null);
 
   useEffect(() => {
     const storedMode = window.localStorage.getItem(modeStorageKey);
@@ -60,6 +63,7 @@ function Index() {
     window.localStorage.setItem(modeStorageKey, mode);
   }, [mode]);
 
+  // Title animation effect
   useEffect(() => {
     if (mode === "pulse") {
       document.title = "Pulse Client";
@@ -105,14 +109,44 @@ function Index() {
     };
   }, [mode]);
 
+  // Called by Navbar / portfolio CTAs instead of setMode directly
+  const handleModeChange = useCallback(
+    (next: SiteMode) => {
+      if (next === mode || pendingMode !== null) return;
+      setPendingMode(next);
+    },
+    [mode, pendingMode],
+  );
+
+  // Called when the animation canvas signals "done" (black screen moment)
+  const handleTransitionComplete = useCallback(() => {
+    if (pendingMode !== null) {
+      setMode(pendingMode);
+      // Scroll to top after the content swap
+      window.scrollTo({ top: 0 });
+    }
+    // Tiny delay so the new content mounts before the overlay disappears
+    setTimeout(() => setPendingMode(null), 80);
+  }, [pendingMode]);
+
   return (
     <div className="min-h-screen bg-background text-foreground">
       <SmoothScroll />
       <CursorGlow />
-      <Navbar mode={mode} onModeChange={setMode} />
+
+      {/* Spell transition overlay */}
+      {pendingMode !== null && (
+        <ModeTransition
+          mode={mode}
+          targetMode={pendingMode}
+          onComplete={handleTransitionComplete}
+        />
+      )}
+
+      <Navbar mode={mode} onModeChange={handleModeChange} />
       <main>
         {mode === "portfolio" ? (
-          <PortfolioMode onModeChange={setMode} />
+          <PortfolioMode onModeChange={handleModeChange} />
         ) : (
           <PulseMode />
         )}
