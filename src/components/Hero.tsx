@@ -3,7 +3,7 @@ import { Download } from "lucide-react";
 import { FloatingParticles } from "./FloatingParticles";
 
 const releaseDownloadUrl =
-  "https://github.com/BombedByXander/pulse-launchpad/releases/download/v1.1.1/PulseClient.zip";
+  "https://github.com/BombedByXander/pulse-launchpad/releases/download/v2.0.0/PulseClientV2.zip";
 
 export function Hero() {
   const [downloadProgress, setDownloadProgress] = useState(0);
