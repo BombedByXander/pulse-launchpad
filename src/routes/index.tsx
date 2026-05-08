@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import {
   ArrowRight,
@@ -49,7 +49,6 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   const [mode, setMode] = useState<SiteMode>("portfolio");
-  // pending = the mode we're animating TOWARD; null = no transition active
   const [pendingMode, setPendingMode] = useState<SiteMode | null>(null);
 
   useEffect(() => {
@@ -64,15 +63,10 @@ function Index() {
   }, [mode]);
 
   useEffect(() => {
-    if (mode === "pulse") {
-      document.title = "Pulse Client";
-      return;
-    }
-
     const label = "ProdByXander!";
     const timeouts: number[] = [];
     let cancelled = false;
-    let index = 0;
+    let index = 1;
     let direction: "forward" | "backward" = "forward";
 
     const schedule = (callback: () => void, delay: number) => {
@@ -91,12 +85,11 @@ function Index() {
 
         if (index >= label.length) {
           direction = "backward";
-          schedule(tick, 1400);
+          schedule(tick, 1200);
           return;
         }
 
-        const nextDelay = index < 4 ? 160 : 125;
-        schedule(tick, nextDelay);
+        schedule(tick, index < 4 ? 135 : 105);
         return;
       }
 
@@ -106,23 +99,32 @@ function Index() {
       if (index <= 0) {
         index = 0;
         direction = "forward";
-        schedule(tick, 520);
+        schedule(tick, 420);
         return;
       }
 
-      const nextDelay = index > 8 ? 95 : 75;
-      schedule(tick, nextDelay);
+      schedule(tick, index > 8 ? 88 : 68);
     };
 
     document.title = label.slice(0, 1);
-    index = 1;
-    schedule(tick, 240);
+    schedule(tick, 210);
 
     return () => {
       cancelled = true;
       timeouts.forEach((timeoutId) => window.clearTimeout(timeoutId));
     };
-  }, [mode]);
+  }, []);
+
+  useEffect(() => {
+    if (pendingMode === null) return;
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [pendingMode]);
 
   const handleModeChange = useCallback(
     (next: SiteMode) => {
@@ -137,7 +139,7 @@ function Index() {
       setMode(pendingMode);
       window.scrollTo({ top: 0 });
     }
-    setTimeout(() => setPendingMode(null), 80);
+    window.setTimeout(() => setPendingMode(null), 110);
   }, [pendingMode]);
 
   return (
@@ -145,7 +147,6 @@ function Index() {
       <SmoothScroll />
       <CursorGlow />
 
-      {/* Spell transition overlay */}
       {pendingMode !== null && (
         <ModeTransition
           mode={mode}
@@ -171,12 +172,93 @@ function PulseMode() {
   return (
     <>
       <Hero />
+      <PulseOverview />
       <FpsCompare />
       <Features />
       <Benchmarks />
       <Requirements />
       <CTA />
     </>
+  );
+}
+
+function PulseOverview() {
+  const pillars = [
+    {
+      title: "196MB footprint",
+      detail: "Compact enough to install fast, with the bundled runtime and launcher kept intentionally lean.",
+    },
+    {
+      title: "One clean flow",
+      detail: "Download, verify, and launch are framed as one path instead of scattered across the page.",
+    },
+    {
+      title: "Built for mixed hardware",
+      detail: "The motion and layout stay lighter so the product page feels stable on older laptops and phones.",
+    },
+  ];
+
+  const highlights = [
+    "Faster first impression with the installer, proof points, and hardware promise surfaced before deep specs.",
+    "Sharper emphasis on the client story instead of asking people to infer it from benchmark blocks.",
+    "Smoother mode-switch pacing so the next view appears only after the transition fully completes.",
+  ];
+
+  return (
+    <section className="relative border-t border-border px-6 py-20">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,oklch(0.78_0.18_142_/_0.08),transparent_38%)]" />
+      <div className="relative mx-auto grid max-w-6xl gap-8 lg:grid-cols-[1.05fr_0.95fr]">
+        <div className="rounded-[28px] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.05),rgba(255,255,255,0.02))] p-6 shadow-elevated sm:p-8">
+          <p className="text-mono-eyebrow mb-3">/ Why Pulse feels different</p>
+          <h2 className="max-w-xl text-3xl font-semibold leading-[1.02] tracking-tight md:text-5xl">
+            A cleaner install story,
+            <br />
+            before the performance flex.
+          </h2>
+          <p className="mt-5 max-w-2xl text-sm leading-relaxed text-muted-foreground md:text-base">
+            Pulse mode now lands with the key product promise up front: a lightweight client,
+            a smaller footprint, and a clearer path from download to launch.
+          </p>
+
+          <div className="mt-8 grid gap-4 sm:grid-cols-3">
+            {pillars.map((item) => (
+              <article
+                key={item.title}
+                className="rounded-2xl border border-white/10 bg-black/20 p-5"
+              >
+                <h3 className="text-base font-semibold text-foreground">{item.title}</h3>
+                <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                  {item.detail}
+                </p>
+              </article>
+            ))}
+          </div>
+        </div>
+
+        <div className="rounded-[28px] border border-white/10 bg-surface/70 p-6 shadow-card sm:p-8">
+          <p className="text-mono-eyebrow mb-3">/ What changed</p>
+          <div className="space-y-4">
+            {highlights.map((item) => (
+              <div
+                key={item}
+                className="flex gap-4 rounded-2xl border border-white/8 bg-background/35 p-4"
+              >
+                <span className="mt-1 h-2.5 w-2.5 shrink-0 rounded-full bg-accent shadow-[0_0_16px_rgba(34,255,136,0.45)]" />
+                <p className="text-sm leading-relaxed text-white/78">{item}</p>
+              </div>
+            ))}
+          </div>
+          <div className="mt-8 rounded-2xl border border-accent/20 bg-[linear-gradient(135deg,rgba(34,255,136,0.14),rgba(255,255,255,0.04))] p-5">
+            <p className="text-mono-eyebrow text-accent">/ Install profile</p>
+            <p className="mt-3 text-2xl font-semibold tracking-tight">196MB package target</p>
+            <p className="mt-2 text-sm leading-relaxed text-white/72">
+              Every visible installer-size reference now reflects the same `196MB` figure so the
+              product story reads consistently across the full Pulse tab.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
   );
 }
 

@@ -148,7 +148,7 @@ export function Hero() {
               className="font-mono text-white !text-[11px] uppercase tracking-wider"
               style={{ textShadow: "0 2px 10px rgba(0, 0, 0, 0.5)" }}
             >
-              v1.1.1 · stable
+              v1.1.1 - stable
             </span>
           </div>
         </div>
@@ -204,7 +204,7 @@ export function Hero() {
               boxShadow: "0 4px 20px rgba(0, 0, 0, 0.4), 0 8px 40px rgba(0, 0, 0, 0.2)",
             }}
           >
-            macOS · Linux
+            macOS - Linux
           </a>
         </div>
 
@@ -212,7 +212,7 @@ export function Hero() {
           className="mt-4 text-center font-mono !text-[11px] uppercase tracking-wider text-white"
           style={{ textShadow: "0 2px 10px rgba(0, 0, 0, 0.5)" }}
         >
-          Free · 87 MB installer · Electron · Java 21 bundled
+          Free - 196MB installer - Electron - Java 21 bundled
         </p>
         <p
           className="mt-1.5 text-center font-mono text-[11px] text-white"
@@ -221,7 +221,23 @@ export function Hero() {
           Guided setup wizard - installs in under a minute.
         </p>
 
-        <div className="mx-auto mt-20 max-w-3xl">
+        <div className="mx-auto mt-10 grid max-w-4xl gap-4 sm:grid-cols-3">
+          {[
+            { label: "Installer size", value: "196MB" },
+            { label: "Cold start", value: "1.84s" },
+            { label: "Tracking calls", value: "0" },
+          ].map((stat) => (
+            <div
+              key={stat.label}
+              className="rounded-2xl border border-white/10 bg-black/25 px-5 py-4 text-center backdrop-blur-sm"
+            >
+              <p className="text-mono-eyebrow">{stat.label}</p>
+              <p className="mt-2 text-2xl font-semibold tracking-tight text-white">{stat.value}</p>
+            </div>
+          ))}
+        </div>
+
+        <div className="mx-auto mt-16 max-w-3xl">
           <div className="overflow-hidden rounded-lg border border-border bg-surface shadow-elevated">
             <div className="flex items-center justify-between border-b border-border bg-surface-elevated px-4 py-2">
               <div className="flex items-center gap-1.5">
@@ -229,17 +245,17 @@ export function Hero() {
                 <span className="h-2.5 w-2.5 rounded-full bg-muted-foreground/30" />
                 <span className="h-2.5 w-2.5 rounded-full bg-muted-foreground/30" />
               </div>
-              <span className="text-mono-eyebrow !text-[10px]">pulse-client · launch.log</span>
+              <span className="text-mono-eyebrow !text-[10px]">pulse-client - launch.log</span>
             </div>
             <pre className="overflow-x-auto p-5 font-mono text-[12.5px] leading-relaxed text-muted-foreground">
 {`$ pulse launch --version 1.21.4
 [ok]   jvm                     openjdk-21.0.4 (bundled)
 [ok]   memory                  allocated 2048M / heap pre-warmed
-[ok]   render                  sodium · iris · lithium · ferrite
-[ok]   network                 lan-discovery off · telemetry off
-[ok]   integrity               6 mods · sha256 verified
+[ok]   render                  sodium - iris - lithium - ferrite
+[ok]   network                 lan-discovery off - telemetry off
+[ok]   integrity               6 mods - sha256 verified
 [run]  game ready in `}<span className="text-foreground">1.84s</span>{`
-[fps]  baseline 142 → `}<span className="text-accent">avg 487</span>{` (+243%)`}
+[fps]  baseline 142 -> `}<span className="text-accent">avg 487</span>{` (+243%)`}
             </pre>
           </div>
         </div>

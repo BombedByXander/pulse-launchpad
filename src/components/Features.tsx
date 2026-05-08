@@ -8,8 +8,8 @@ const features = [
   },
   {
     icon: HardDrive,
-    title: "87 MB install",
-    desc: "Built with Electron, no embedded browser, no analytics SDKs. The launcher itself stays out of your way.",
+    title: "196MB install",
+    desc: "Built with Electron, no embedded browser, and no analytics SDKs. The launcher itself stays out of your way.",
   },
   {
     icon: Cpu,
@@ -24,18 +24,18 @@ const features = [
   {
     icon: Workflow,
     title: "Stable on old hardware",
-    desc: "Verified on Intel HD 4000, Apple M1, and integrated AMD Vega — same launcher, same results.",
+    desc: "Verified on Intel HD 4000, Apple M1, and integrated AMD Vega - same launcher, same results.",
   },
   {
     icon: Code2,
     title: "Open mod profile",
-    desc: "Drop in any Fabric or Quilt mod. Profiles are plain JSON — version, share, audit them.",
+    desc: "Drop in any Fabric or Quilt mod. Profiles are plain JSON - version, share, audit them.",
   },
 ];
 
 export function Features() {
   return (
-    <section id="features" className="relative py-28 px-6 border-t border-border">
+    <section id="features" className="relative border-t border-border px-6 py-28">
       <div className="max-w-6xl mx-auto">
         <div className="max-w-2xl mb-16">
           <p className="text-mono-eyebrow mb-3">/ Features</p>
@@ -46,17 +46,17 @@ export function Features() {
           </h2>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 border-t border-l border-border">
-          {features.map((f) => {
-            const Icon = f.icon;
+        <div className="grid border-l border-t border-border md:grid-cols-2 lg:grid-cols-3">
+          {features.map((feature) => {
+            const Icon = feature.icon;
             return (
               <div
-                key={f.title}
-                className="group relative p-8 border-r border-b border-border hover:bg-surface/50 transition-smooth"
+                key={feature.title}
+                className="group relative border-b border-r border-border p-8 transition-smooth hover:bg-surface/50"
               >
-                <Icon className="w-4 h-4 text-muted-foreground mb-6" strokeWidth={1.5} />
-                <h3 className="text-base font-semibold mb-2">{f.title}</h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">{f.desc}</p>
+                <Icon className="mb-6 h-4 w-4 text-muted-foreground" strokeWidth={1.5} />
+                <h3 className="mb-2 text-base font-semibold">{feature.title}</h3>
+                <p className="text-sm leading-relaxed text-muted-foreground">{feature.desc}</p>
               </div>
             );
           })}

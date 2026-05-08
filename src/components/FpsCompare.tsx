@@ -5,28 +5,27 @@ export function FpsCompare() {
   const pulse = useCountUp(465, 2400);
 
   return (
-    <section className="relative py-28 px-6 border-t border-border overflow-hidden">
+    <section className="relative overflow-hidden border-t border-border px-6 py-28">
       <div className="absolute inset-0 grid-bg opacity-40 pointer-events-none [mask-image:radial-gradient(ellipse_at_center,black_30%,transparent_75%)]" />
 
       <div className="relative max-w-6xl mx-auto">
-        <div className="text-center mb-16">
+        <div className="mb-16 text-center">
           <p className="text-mono-eyebrow mb-3">/ Side-by-side</p>
           <h2 className="text-3xl md:text-5xl font-semibold leading-[1.05] tracking-tight">
             Same world. Same hardware.
             <br />
             Different launcher.
           </h2>
-          <p className="text-sm text-muted-foreground mt-5 max-w-md mx-auto leading-relaxed">
+          <p className="mx-auto mt-5 max-w-md text-sm leading-relaxed text-muted-foreground">
             Average sustained frame rate during a 60-second world load, captured
             on identical hardware.
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-px bg-border border border-border rounded-lg overflow-hidden">
-          {/* Other Clients — RED */}
+        <div className="grid gap-px overflow-hidden rounded-lg border border-border bg-border md:grid-cols-2">
           <div
             ref={other.ref}
-            className="relative bg-surface p-10 md:p-14 min-h-[280px] flex flex-col justify-between"
+            className="relative flex min-h-[280px] flex-col justify-between bg-surface p-10 md:p-14"
           >
             <div className="flex items-center justify-between">
               <span className="text-mono-eyebrow">/ Other Clients</span>
@@ -44,20 +43,19 @@ export function FpsCompare() {
                 }}
               >
                 {Math.round(other.value)}
-                <span className="text-base md:text-lg font-mono text-muted-foreground ml-3 align-top mt-3 inline-block">
+                <span className="ml-3 mt-3 inline-block align-top font-mono text-base text-muted-foreground md:text-lg">
                   fps
                 </span>
               </div>
-              <p className="text-xs text-muted-foreground mt-4 font-mono">
-                vanilla · forge · stock launchers
+              <p className="mt-4 font-mono text-xs text-muted-foreground">
+                vanilla - forge - stock launchers
               </p>
             </div>
           </div>
 
-          {/* Pulse Client — GREEN */}
           <div
             ref={pulse.ref}
-            className="relative bg-surface p-10 md:p-14 min-h-[280px] flex flex-col justify-between"
+            className="relative flex min-h-[280px] flex-col justify-between bg-surface p-10 md:p-14"
           >
             <div className="flex items-center justify-between">
               <span className="font-mono text-[10px] uppercase tracking-widest text-accent">
@@ -75,19 +73,19 @@ export function FpsCompare() {
                 }}
               >
                 {Math.round(pulse.value)}
-                <span className="text-base md:text-lg font-mono text-muted-foreground ml-3 align-top mt-3 inline-block">
+                <span className="ml-3 mt-3 inline-block align-top font-mono text-base text-muted-foreground md:text-lg">
                   fps
                 </span>
               </div>
-              <p className="text-xs text-muted-foreground mt-4 font-mono">
-                pulse client · sodium · lithium
+              <p className="mt-4 font-mono text-xs text-muted-foreground">
+                pulse client - sodium - lithium
               </p>
             </div>
           </div>
         </div>
 
-        <p className="text-center text-mono-eyebrow !text-[10px] mt-6">
-          Tested on Ryzen 5 5500 · GTX 1060 Gaming X · 16 GB · render distance 16 · vsync OFF
+        <p className="mt-6 text-center text-mono-eyebrow !text-[10px]">
+          Tested on Ryzen 5 5500 - GTX 1060 Gaming X - 16 GB - render distance 16 - vsync OFF
         </p>
       </div>
     </section>

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 type SiteMode = "portfolio" | "pulse";
 
@@ -8,317 +8,151 @@ interface ModeTransitionProps {
   targetMode: SiteMode;
 }
 
-/**
- * Cartoon spell-cast transition overlay.
- * Renders a full-screen canvas burst + SVG rune ring, then fades out.
- */
+const TRANSITION_MS = 1180;
+
 export function ModeTransition({ mode, onComplete, targetMode }: ModeTransitionProps) {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [phase, setPhase] = useState<"burst" | "hold" | "fade" | "done">("burst");
+  const [revealed, setRevealed] = useState(false);
 
-  // Color palettes per target mode
-  const palette =
-    targetMode === "pulse"
-      ? {
-          core: "oklch(0.78 0.18 142)", // green accent
-          coreDark: "#0f6b3c",
-          ring: "#22ff88",
-          spark: ["#22ff88", "#ffffff", "#aaffcc", "#00ffaa", "#88ffdd"],
-          glow: "rgba(34,255,136,",
-          bg: "rgba(10,40,20,",
-        }
-      : {
-          core: "oklch(0.96 0.002 250)", // near-white / portfolio neutral
-          coreDark: "#1a2040",
-          ring: "#c8d8ff",
-          spark: ["#c8d8ff", "#ffffff", "#aabbff", "#ddeeff", "#8899cc"],
-          glow: "rgba(180,200,255,",
-          bg: "rgba(10,14,40,",
-        };
-
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
-
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-    const cx = canvas.width / 2;
-    const cy = canvas.height / 2;
-
-    // --- Particle system ---
-    const N_SPARKS = 110;
-    const N_RUNES = 18;
-    type Spark = {
-      x: number; y: number; vx: number; vy: number;
-      life: number; maxLife: number; size: number;
-      color: string; trail: { x: number; y: number }[];
-    };
-    type Rune = {
-      angle: number; radius: number; angVel: number;
-      char: string; opacity: number; size: number;
-    };
-
-    const runeChars = ["᛫", "ᚱ", "ᚨ", "ᛏ", "ᚹ", "ᛖ", "ᚾ", "ᚦ", "ᛊ", "ᛗ", "✦", "◈", "⬡", "⬢", "◉", "⬟", "✧", "⟐"];
-
-    const sparks: Spark[] = Array.from({ length: N_SPARKS }, (_, i) => {
-      const angle = (i / N_SPARKS) * Math.PI * 2 + Math.random() * 0.3;
-      const speed = 4 + Math.random() * 14;
-      return {
-        x: cx, y: cy,
-        vx: Math.cos(angle) * speed,
-        vy: Math.sin(angle) * speed,
-        life: 0,
-        maxLife: 55 + Math.random() * 35,
-        size: 2 + Math.random() * 5,
-        color: palette.spark[Math.floor(Math.random() * palette.spark.length)],
-        trail: [],
-      };
-    });
-
-    const runes: Rune[] = Array.from({ length: N_RUNES }, (_, i) => ({
-      angle: (i / N_RUNES) * Math.PI * 2,
-      radius: 80 + Math.random() * 60,
-      angVel: (Math.random() - 0.5) * 0.06,
-      char: runeChars[i % runeChars.length],
-      opacity: 0,
-      size: 14 + Math.random() * 10,
-    }));
-
-    let frame = 0;
-    let raf = 0;
-    let shockwaveR = 0;
-    let phase2Started = false;
-    let fadeStartFrame = 0;
-
-    const tick = () => {
-      frame++;
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      // --- Background ink wash ---
-      const washProgress = Math.min(1, frame / 28);
-      const washEased = 1 - Math.pow(1 - washProgress, 3);
-      ctx.fillStyle = palette.bg + (washEased * 0.88) + ")";
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-      // --- Shockwave ring ---
-      shockwaveR = frame * 38;
-      const swAlpha = Math.max(0, 1 - frame / 22);
-      if (swAlpha > 0) {
-        ctx.beginPath();
-        ctx.arc(cx, cy, shockwaveR, 0, Math.PI * 2);
-        ctx.strokeStyle = palette.glow + swAlpha + ")";
-        ctx.lineWidth = 18 - frame * 0.7;
-        ctx.stroke();
-      }
-
-      // --- Central glow orb ---
-      const orbR = Math.min(180, frame * 12);
-      const orbAlpha = Math.max(0, 1 - frame / 50) * 0.7;
-      const grd = ctx.createRadialGradient(cx, cy, 0, cx, cy, orbR);
-      grd.addColorStop(0, palette.glow + (orbAlpha * 1.2) + ")");
-      grd.addColorStop(0.4, palette.glow + (orbAlpha * 0.5) + ")");
-      grd.addColorStop(1, palette.glow + "0)");
-      ctx.fillStyle = grd;
-      ctx.beginPath();
-      ctx.arc(cx, cy, orbR, 0, Math.PI * 2);
-      ctx.fill();
-
-      // --- Rune ring (appears around frame 8) ---
-      if (frame >= 8) {
-        runes.forEach((r) => {
-          r.angle += r.angVel;
-          r.opacity = Math.min(1, (frame - 8) / 20);
-          const rx = cx + Math.cos(r.angle) * r.radius;
-          const ry = cy + Math.sin(r.angle) * r.radius;
-          ctx.save();
-          ctx.globalAlpha = r.opacity * (0.5 + 0.5 * Math.sin(frame * 0.08 + r.angle));
-          ctx.font = `${r.size}px monospace`;
-          ctx.fillStyle = palette.ring;
-          ctx.textAlign = "center";
-          ctx.textBaseline = "middle";
-          ctx.shadowColor = palette.ring;
-          ctx.shadowBlur = 12;
-          ctx.fillText(r.char, rx, ry);
-          ctx.restore();
-        });
-      }
-
-      // --- Outer rune ring (larger, counter-rotating) ---
-      if (frame >= 12) {
-        const outerR = 160 + Math.min(80, (frame - 12) * 6);
-        const outerOpacity = Math.min(1, (frame - 12) / 18);
-        runes.forEach((r, i) => {
-          if (i % 2 !== 0) return;
-          const angle2 = -(r.angle * 0.7) + frame * 0.025;
-          const rx = cx + Math.cos(angle2) * outerR;
-          const ry = cy + Math.sin(angle2) * outerR;
-          ctx.save();
-          ctx.globalAlpha = outerOpacity * 0.4;
-          ctx.font = `${r.size * 0.7}px monospace`;
-          ctx.fillStyle = palette.ring;
-          ctx.textAlign = "center";
-          ctx.textBaseline = "middle";
-          ctx.shadowColor = palette.ring;
-          ctx.shadowBlur = 8;
-          ctx.fillText(runeChars[(i + 5) % runeChars.length], rx, ry);
-          ctx.restore();
-        });
-      }
-
-      // --- Sparks ---
-      sparks.forEach((s) => {
-        if (s.life < s.maxLife) {
-          s.trail.push({ x: s.x, y: s.y });
-          if (s.trail.length > 8) s.trail.shift();
-          s.x += s.vx;
-          s.y += s.vy;
-          s.vx *= 0.97;
-          s.vy *= 0.97;
-          s.vy += 0.18; // gentle gravity
-          s.life++;
-
-          const p = s.life / s.maxLife;
-          const alpha = 1 - p;
-
-          // Trail
-          if (s.trail.length > 1) {
-            ctx.beginPath();
-            ctx.moveTo(s.trail[0].x, s.trail[0].y);
-            s.trail.forEach((pt) => ctx.lineTo(pt.x, pt.y));
-            ctx.strokeStyle = s.color;
-            ctx.globalAlpha = alpha * 0.4;
-            ctx.lineWidth = s.size * 0.5;
-            ctx.stroke();
-            ctx.globalAlpha = 1;
+  const palette = useMemo(
+    () =>
+      targetMode === "pulse"
+        ? {
+            accent: "oklch(0.78 0.18 142)",
+            accentSoft: "rgba(34, 255, 136, 0.22)",
+            accentStrong: "rgba(34, 255, 136, 0.58)",
+            base: "rgba(8, 18, 13, 0.92)",
+            halo: "radial-gradient(circle at center, rgba(34,255,136,0.28), transparent 60%)",
+            ring: "rgba(193, 255, 224, 0.9)",
           }
-
-          // Spark dot
-          ctx.beginPath();
-          ctx.arc(s.x, s.y, s.size * (1 - p * 0.6), 0, Math.PI * 2);
-          ctx.fillStyle = s.color;
-          ctx.globalAlpha = alpha;
-          ctx.shadowColor = s.color;
-          ctx.shadowBlur = 16;
-          ctx.fill();
-          ctx.globalAlpha = 1;
-          ctx.shadowBlur = 0;
-        }
-      });
-
-      // --- Star burst lines ---
-      const lineCount = 24;
-      for (let i = 0; i < lineCount; i++) {
-        const ang = (i / lineCount) * Math.PI * 2 + frame * 0.01;
-        const len = Math.min(280, frame * 22);
-        const alpha = Math.max(0, 1 - frame / 35) * 0.55;
-        ctx.beginPath();
-        ctx.moveTo(cx, cy);
-        ctx.lineTo(cx + Math.cos(ang) * len, cy + Math.sin(ang) * len);
-        ctx.strokeStyle = palette.ring;
-        ctx.globalAlpha = alpha;
-        ctx.lineWidth = 1.5;
-        ctx.stroke();
-        ctx.globalAlpha = 1;
-      }
-
-      // --- Center core symbol ---
-      const coreScale = Math.min(1.4, frame / 10);
-      const coreAlpha = Math.min(1, frame / 14);
-      ctx.save();
-      ctx.translate(cx, cy);
-      ctx.rotate(frame * 0.04);
-      ctx.scale(coreScale, coreScale);
-      ctx.globalAlpha = coreAlpha;
-      ctx.font = "bold 64px monospace";
-      ctx.textAlign = "center";
-      ctx.textBaseline = "middle";
-      ctx.fillStyle = "#ffffff";
-      ctx.shadowColor = palette.ring;
-      ctx.shadowBlur = 40;
-      ctx.fillText(targetMode === "pulse" ? "⬡" : "✦", 0, 0);
-      ctx.restore();
-      ctx.globalAlpha = 1;
-
-      // Phase: hold at peak, then start fade
-      if (!phase2Started && frame >= 38) {
-        phase2Started = true;
-        fadeStartFrame = frame;
-        setPhase("hold");
-        setTimeout(() => setPhase("fade"), 180);
-      }
-
-      // Fade out the canvas after hold
-      if (phase2Started && frame > fadeStartFrame + 10) {
-        const fadeP = Math.min(1, (frame - (fadeStartFrame + 10)) / 25);
-        ctx.fillStyle = `rgba(0,0,0,${fadeP})`;
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-        if (fadeP >= 1) {
-          cancelAnimationFrame(raf);
-          setPhase("done");
-          return;
-        }
-      }
-
-      raf = requestAnimationFrame(tick);
-    };
-
-    raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+        : {
+            accent: "oklch(0.9 0.03 220)",
+            accentSoft: "rgba(200, 216, 255, 0.2)",
+            accentStrong: "rgba(200, 216, 255, 0.5)",
+            base: "rgba(10, 14, 32, 0.92)",
+            halo: "radial-gradient(circle at center, rgba(200,216,255,0.24), transparent 60%)",
+            ring: "rgba(240, 245, 255, 0.92)",
+          },
+    [targetMode],
+  );
 
   useEffect(() => {
-    if (phase === "done") {
-      onComplete();
-    }
-  }, [phase, onComplete]);
+    const revealTimer = window.setTimeout(() => setRevealed(true), 70);
+    const completeTimer = window.setTimeout(() => onComplete(), TRANSITION_MS);
+
+    return () => {
+      window.clearTimeout(revealTimer);
+      window.clearTimeout(completeTimer);
+    };
+  }, [onComplete]);
 
   return (
     <div
-      className="fixed inset-0 z-[200] pointer-events-all"
-      style={{ cursor: "default" }}
+      className="fixed inset-0 z-[200] overflow-hidden pointer-events-auto"
+      style={{
+        background:
+          targetMode === "pulse"
+            ? "linear-gradient(135deg, rgba(4,12,8,0.98), rgba(11,29,20,0.96) 48%, rgba(5,12,9,0.98))"
+            : "linear-gradient(135deg, rgba(6,9,19,0.98), rgba(17,22,42,0.96) 48%, rgba(8,10,20,0.98))",
+      }}
     >
-      <canvas
-        ref={canvasRef}
-        className="absolute inset-0 w-full h-full"
-        style={{ display: "block" }}
+      <div
+        className={`absolute inset-0 transition-opacity duration-500 ${revealed ? "opacity-100" : "opacity-0"}`}
+        style={{ background: palette.halo }}
+      />
+      <div className="absolute inset-0 bg-[linear-gradient(transparent,rgba(255,255,255,0.02),transparent)] opacity-60" />
+      <div className="absolute inset-0 grid-bg opacity-[0.16]" />
+
+      <div
+        className="absolute left-1/2 top-1/2 h-[44vmin] w-[44vmin] -translate-x-1/2 -translate-y-1/2 rounded-full blur-3xl"
+        style={{
+          background: `radial-gradient(circle, ${palette.accentSoft} 0%, transparent 68%)`,
+          animation: "mode-switch-halo 1.18s cubic-bezier(0.16,1,0.3,1) forwards",
+        }}
       />
 
-      {/* Mode label that appears during hold */}
-      {(phase === "hold" || phase === "fade") && (
+      <div
+        className="absolute left-1/2 top-1/2 h-[26vmin] w-[26vmin] -translate-x-1/2 -translate-y-1/2 rounded-full border"
+        style={{
+          borderColor: palette.ring,
+          boxShadow: `0 0 40px ${palette.accentStrong}, inset 0 0 30px ${palette.accentSoft}`,
+          animation: "mode-switch-ring 1.18s cubic-bezier(0.16,1,0.3,1) forwards",
+        }}
+      />
+      <div
+        className="absolute left-1/2 top-1/2 h-[34vmin] w-[34vmin] -translate-x-1/2 -translate-y-1/2 rounded-full border opacity-60"
+        style={{
+          borderColor: palette.accent,
+          animation: "mode-switch-orbit 1.18s linear forwards",
+        }}
+      />
+
+      <div className="relative flex min-h-screen items-center justify-center px-6">
         <div
-          className="absolute inset-0 flex items-center justify-center"
+          className={`w-full max-w-3xl rounded-[30px] border border-white/10 px-6 py-8 text-center shadow-[0_40px_120px_rgba(0,0,0,0.45)] backdrop-blur-xl transition-all duration-700 sm:px-10 sm:py-10 ${
+            revealed ? "translate-y-0 scale-100 opacity-100" : "translate-y-6 scale-[0.98] opacity-0"
+          }`}
           style={{
-            animation: "spell-label-in 0.25s cubic-bezier(0.16,1,0.3,1) forwards",
+            background: `linear-gradient(180deg, ${palette.base}, rgba(255,255,255,0.02))`,
           }}
         >
-          <div className="text-center">
-            <div
-              className="font-mono text-xs uppercase tracking-[0.35em] mb-3"
-              style={{ color: targetMode === "pulse" ? "#22ff88" : "#c8d8ff", opacity: 0.8 }}
-            >
-              switching to
-            </div>
-            <div
-              className="text-4xl font-bold tracking-tight"
+          <p
+            className="font-mono text-[11px] uppercase tracking-[0.38em]"
+            style={{ color: palette.ring }}
+          >
+            switching modes
+          </p>
+          <h2 className="mt-4 text-3xl font-semibold tracking-tight text-white sm:text-5xl">
+            {targetMode === "pulse" ? "Pulse Client" : "ProdByXander!"}
+          </h2>
+          <p className="mx-auto mt-4 max-w-xl text-sm leading-relaxed text-white/72 sm:text-base">
+            {targetMode === "pulse"
+              ? "Loading the product view only after the transition fully resolves, so the switch feels clean and deliberate on smaller and larger screens alike."
+              : "Returning to the portfolio shell after the transition closes, keeping the mode swap smooth before the next view appears."}
+          </p>
+
+          <div className="mt-8 flex items-center justify-center gap-3">
+            <span
+              className="h-2.5 w-2.5 rounded-full"
               style={{
-                color: "#ffffff",
-                textShadow: `0 0 40px ${targetMode === "pulse" ? "#22ff88" : "#c8d8ff"}, 0 0 80px ${targetMode === "pulse" ? "#22ff88" : "#c8d8ff"}`,
-                fontFamily: "monospace",
+                background: palette.accent,
+                boxShadow: `0 0 18px ${palette.accentStrong}`,
               }}
-            >
-              {targetMode === "pulse" ? "⬡ Pulse Client" : "✦ Portfolio"}
-            </div>
+            />
+            <div className="h-px w-24 bg-white/18 sm:w-36" />
+            <span className="text-mono-eyebrow">
+              {mode === "portfolio" ? "portfolio" : "pulse"} to{" "}
+              {targetMode === "portfolio" ? "portfolio" : "pulse"}
+            </span>
+            <div className="h-px w-24 bg-white/18 sm:w-36" />
+            <span
+              className="h-2.5 w-2.5 rounded-full"
+              style={{
+                background: palette.ring,
+                boxShadow: `0 0 18px ${palette.accentStrong}`,
+              }}
+            />
           </div>
         </div>
-      )}
+      </div>
 
       <style>{`
-        @keyframes spell-label-in {
-          from { opacity: 0; transform: scale(0.85); }
-          to   { opacity: 1; transform: scale(1); }
+        @keyframes mode-switch-halo {
+          0% { opacity: 0; transform: translate(-50%, -50%) scale(0.72); }
+          35% { opacity: 1; }
+          100% { opacity: 0; transform: translate(-50%, -50%) scale(1.38); }
+        }
+
+        @keyframes mode-switch-ring {
+          0% { opacity: 0; transform: translate(-50%, -50%) scale(0.62) rotate(0deg); }
+          24% { opacity: 1; }
+          72% { opacity: 1; }
+          100% { opacity: 0; transform: translate(-50%, -50%) scale(1.26) rotate(14deg); }
+        }
+
+        @keyframes mode-switch-orbit {
+          0% { opacity: 0; transform: translate(-50%, -50%) scale(0.88) rotate(0deg); }
+          20% { opacity: 0.7; }
+          100% { opacity: 0; transform: translate(-50%, -50%) scale(1.18) rotate(180deg); }
         }
       `}</style>
     </div>
